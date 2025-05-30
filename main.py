@@ -1,41 +1,48 @@
-from sistema_tarefas.tarefa import adicionar_tarefa, listar_tarefas, marcar_concluida, remover_tarefa
-from sistema_tarefas.arquivo import carregar_tarefas, salvar_tarefas
+from biblioteca import Biblioteca
+from arquivo import salvar_livros, carregar_livros
 
 def menu():
-    print("\n==== Sistema de Controle de carros ====")
-    print("1. Adicionar carro")
-    print("2. Listar carros")
-    print("3. Marcar como vendido")
-    print("4. carro quebrado")
+    print("\n=== Sistema de Cadastro de jogos ===")
+    print("1. Cadastrar jogo")
+    print("2. Listar jogos")
+    print("3. Buscar jogos")
+    print("4. Remover jogo")
     print("5. Sair")
 
-def main():
-    tarefas = carregar_tarefas()
+biblioteca = Biblioteca()
+carregar_livros(biblioteca)
 
-    while True:
-        menu()
-        escolha = input("Escolha uma opção: ")
+while True:
+    menu()
+    opcao = input("Escolha: ")
 
-        if escolha == '1':
-            descricao = input("Digite a descrição do carro: ")
-            adicionar_tarefa(tarefas, descricao)
-        elif escolha == '2':
-            listar_tarefas(tarefas)
-        elif escolha == '3':
-            id_tarefa = int(input("Digite o ID do carro a marcar: "))
-            marcar_concluida(tarefas, id_tarefa)
-        elif escolha == '4':
-            id_tarefa = int(input("Digite o ID do carro quebrado: "))
-            remover_tarefa(tarefas, id_tarefa)
-        elif escolha == '5':
-            salvar_tarefas(tarefas)
-            ("vas.")
-        elif escolha =='6':
-             id_tarefa=int(input('digite o ID do carro vermelho'))
-             adicionar_tarefa(tarefas,descricao)
+    if opcao == "1":
+        titulo = input("Título: ")
+        autor = input("empresa: ")
+        ano = input("Ano: ")
+        biblioteca.adicionar(titulo, autor, ano)
+        salvar_livros(biblioteca)
+        print("jogo cadastrado com sucesso!")
+
+    elif opcao == "2":
+        biblioteca.listar()
+
+    elif opcao == "3":
+        termo = input("Digite título ou empresa para buscar: ")
+        biblioteca.buscar(termo)
+
+    elif opcao == "4":
+        biblioteca.listar()
+        try:
+            indice = int(input("Digite o número do jogo para remover: ")) - 1
+            biblioteca.remover(indice)
+            salvar_livros(biblioteca)
+        except ValueError:
+            print("Por favor, insira um número válido.")
+
+    elif opcao == "5":
+        print("Saindo... Até logo!")
         break
-    else:
-       print("Opção inválida. Tente novamente.")
 
-if __name__ == '__main__':
-    main()
+    else:
+        print("Opção inválida. Tente novamente.")
